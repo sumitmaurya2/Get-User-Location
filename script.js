@@ -28,11 +28,19 @@ const checkError = (error) => {
 };
 
 const showLocation = async (position) => {
-  //We user the NOminatim API for getting actual addres from latitude and longitude
-  let response = await fetch(
-    `https://nominatim.openstreetmap.org/reverse?lat=${position.coords.latitude}&lon=${position.coords.longitude}&format=json`
+  const lat = position.coords.latitude;
+  const lon = position.coords.longitude;
+
+  const response = await fetch(
+    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+    {
+      headers: {
+        "Accept": "application/json",
+        "User-Agent": "my-location-app/1.0 (your-email@example.com)"
+      }
+    }
   );
-  //store response object
-  let data = await response.json();
-  locationDiv.innerText = `${data.address.city}, ${data.address.country}`;
+
+  const data = await response.json();
+  locationDiv.innerText = `${data.address.city || data.address.town || data.address.village}, ${data.address.country}`;
 };
