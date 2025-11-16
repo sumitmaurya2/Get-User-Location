@@ -44,3 +44,4 @@ const showLocation = async (position) => {
   const data = await response.json();
   locationDiv.innerText = `${data.address.city || data.address.town || data.address.village}, ${data.address.country}`;
 };
+
